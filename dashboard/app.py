@@ -1,14 +1,21 @@
 import streamlit as st
 import pandas as pd
 import os
+from pathlib import Path
 
-# Load data
-df = pd.read_csv("outputs/cleaned_finance_data.csv")
-monthly_summary = pd.read_csv("outputs/monthly_summary.csv")
-forecast_path = "outputs/forecast_data.csv"
-forecast_data = pd.read_csv(forecast_path) if os.path.exists(forecast_path) else None
-behavior_path = "outputs/classified_behavior.csv"
-behavior_data = pd.read_csv(behavior_path) if os.path.exists(behavior_path) else None
+# Load data (paths relative to repository root)
+BASE_DIR = Path(__file__).resolve().parents[1]
+OUTPUTS_DIR = BASE_DIR / "outputs"
+
+cleaned_path = OUTPUTS_DIR / "cleaned_finance_data.csv"
+monthly_summary_path = OUTPUTS_DIR / "monthly_summary.csv"
+forecast_path = OUTPUTS_DIR / "forecast_data.csv"
+behavior_path = OUTPUTS_DIR / "classified_behavior.csv"
+
+df = pd.read_csv(cleaned_path)
+monthly_summary = pd.read_csv(monthly_summary_path)
+forecast_data = pd.read_csv(forecast_path) if forecast_path.exists() else None
+behavior_data = pd.read_csv(behavior_path) if behavior_path.exists() else None
 
 # App layout
 st.set_page_config(page_title="Smart Budget Planner", layout="wide")
